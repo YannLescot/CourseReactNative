@@ -4,23 +4,23 @@ import ColorCounter from '../components/ColorCounter'
 
 const VALUE_CHANGING_AMOUNT = 15;
 
-const setColor = (color, change) => { //color sera red blue ou green | change sera VALUE_CHANGING_AMOUNT
-    switch (color) {
-        case red:
-            red + change > 255 || red + change < 0 ? null : setRed(red + VALUE_CHANGING_AMOUNT);
-            return;
-        case 'green':
-            green + change > 255 || green + change < 0 ? null : setGreen(green + VALUE_CHANGING_AMOUNT);
-            return;
-        case 'blue':
-            blue + change > 255 || blue + change < 0 ? null : setBlue(blue + VALUE_CHANGING_AMOUNT);
-            return;
-        default: //Il faut un case default au cas où nos couleurs ne correspondent ni à red, blue ou green
-            return;
-    };
-};
-
 const SquareScreen = () => {
+
+    const setColor = (color, change) => { //color sera red blue ou green | change sera VALUE_CHANGING_AMOUNT
+        switch (color) {
+            case 'red':
+                red + change > 255 || red + change < 0 ? null : setRed(red + change);
+                return;
+            case 'green':
+                green + change > 255 || green + change < 0 ? null : setGreen(green + change);
+                return;
+            case 'blue':
+                blue + change > 255 || blue + change < 0 ? null : setBlue(blue + change);
+                return;
+            default: //Il faut un case default au cas où nos couleurs ne correspondent ni à red, blue ou green
+                return;
+        };
+    };
 
     const [red, setRed] = useState(0);
     const [green, setGreen] = useState(0);
@@ -29,7 +29,7 @@ const SquareScreen = () => {
     return(
         <View>
         <ColorCounter
-        onIncrease={() => setColor(red, VALUE_CHANGING_AMOUNT)}
+        onIncrease={() => setColor('red', VALUE_CHANGING_AMOUNT)}
         onDecrease={() => setColor('red', -1 * VALUE_CHANGING_AMOUNT)}
         color="Red"
         />
@@ -44,8 +44,8 @@ const SquareScreen = () => {
         onIncrease={() => setColor('blue', VALUE_CHANGING_AMOUNT)}
         onDecrease={() => setColor('blue', -1 * VALUE_CHANGING_AMOUNT)}
         color="Blue"
-        
         />
+        
         <View style={{ height: 150, backgroundColor: `rgb(${red},${green},${blue})` }}/>
         </View>
     )
