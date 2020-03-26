@@ -1,48 +1,51 @@
-import React, {useState} from 'react'
+import React, {useReducer} from 'react'
 import { View, Text, Button, StyleSheet } from 'react-native'
 import ColorCounter from '../components/ColorCounter'
 
 const VALUE_CHANGING_AMOUNT = 15;
 
+const reducer = (state, action) => {//state = les couleurs et leur valeur, action = la couleur à changer et le montant du changement
+                                   //state = { red: 0, green: 0, blue: 0}, action = { toChange : 'red' || 'green' || 'blue', amount : 15 || -15  } 
+    switch(action.type){
+        case 'change_red':
+            return state.red + action.payload > 255 || state.red + action.payload < 0
+            ? state
+            : {...state, red: state.red + action.payload }; // Pas de return ici car on ne peut pas quand on écrit les conditions comme ça
+        case 'change_green':
+            return state.green + action.payload > 255 || state.green + action.payload < 0
+            ? state
+            : {...state, green: state.green + action.payload };
+        case 'change_blue':
+            return state.blue + action.payload > 255 || state.blue + action.payload < 0
+            ? state
+            : {...state, blue: state.blue + action.payload };
+        default:
+            return state;
+    }
+}
+
 const SquareScreen = () => {
 
-    const setColor = (color, change) => { //color sera red blue ou green | change sera VALUE_CHANGING_AMOUNT
-        switch (color) {
-            case 'red':
-                red + change > 255 || red + change < 0 ? null : setRed(red + change);
-                return;
-            case 'green':
-                green + change > 255 || green + change < 0 ? null : setGreen(green + change);
-                return;
-            case 'blue':
-                blue + change > 255 || blue + change < 0 ? null : setBlue(blue + change);
-                return;
-            default: //Il faut un case default au cas où nos couleurs ne correspondent ni à red, blue ou green
-                return;
-        };
-    };
-
-    const [red, setRed] = useState(0);
-    const [green, setGreen] = useState(0);
-    const [blue, setBlue] = useState(0);
+        const [state, dispatch] = useReducer(reducer, { red: 0, green: 0, blue: 0});
+        const {red, green, blue} = state;
 
     return(
         <View>
         <ColorCounter
-        onIncrease={() => setColor('red', VALUE_CHANGING_AMOUNT)}
-        onDecrease={() => setColor('red', -1 * VALUE_CHANGING_AMOUNT)}
+        onIncrease={() => dispatch({ type: 'change_red', payload: VALUE_CHANGING_AMOUNT }) }
+        onDecrease={() => dispatch({ type: 'change_red', payload: -1 *VALUE_CHANGING_AMOUNT })}
         color="Red"
         />
 
         <ColorCounter
-        onIncrease={() => setColor('green', VALUE_CHANGING_AMOUNT)}
-        onDecrease={() => setColor('green', -1 * VALUE_CHANGING_AMOUNT)}
+        onIncrease={() => dispatch({ type: 'change_green', payload: VALUE_CHANGING_AMOUNT }) }
+        onDecrease={() => dispatch({ type: 'change_green', payload: -1 *VALUE_CHANGING_AMOUNT })}
         color="Green"
         />
 
         <ColorCounter
-        onIncrease={() => setColor('blue', VALUE_CHANGING_AMOUNT)}
-        onDecrease={() => setColor('blue', -1 * VALUE_CHANGING_AMOUNT)}
+        onIncrease={() => dispatch({ type: 'change_blue', payload: VALUE_CHANGING_AMOUNT }) }
+        onDecrease={() => dispatch({ type: 'change_blue', payload: -1 *VALUE_CHANGING_AMOUNT })}
         color="Blue"
         />
         
