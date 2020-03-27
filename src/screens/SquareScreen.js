@@ -5,7 +5,7 @@ import ColorCounter from '../components/ColorCounter'
 const VALUE_CHANGING_AMOUNT = 15;
 
 const reducer = (state, action) => {//state = les couleurs et leur valeur, action = la couleur à changer et le montant du changement
-                                   //state = { red: 0, green: 0, blue: 0}, action = { toChange : 'red' || 'green' || 'blue', amount : 15 || -15  } 
+                                   //state = { red: 0, green: 0, blue: 0}, action = { type : 'change_red' || 'change_green' || 'change_blue', payload : 15 || -15  } 
     switch(action.type){
         case 'change_red':
             return state.red + action.payload > 255 || state.red + action.payload < 0
